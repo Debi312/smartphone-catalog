@@ -13,14 +13,17 @@ const isProduction = process.env.NODE_ENV === "production";
 const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : "style-loader";
 
 /** @type {import("webpack").Configuration} */
-const config : Configuration = {
+const config: Configuration = {
     entry: "./src/main.tsx",
     output: {
         path: path.resolve(__dirname, "dist"),
-      
+
     },
     devServer: {
         open: true,
+        host: "localhost",
+        port: 8080,
+        historyApiFallback: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -44,7 +47,7 @@ const config : Configuration = {
                 test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
                 type: "asset",
             },
-            
+
             {
                 test: /\.html$/i,
                 use: ["html-loader"],

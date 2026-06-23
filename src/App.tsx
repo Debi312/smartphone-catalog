@@ -1,9 +1,15 @@
+import { Routes, Route } from "react-router-dom";
+import { HomePage } from "./pages/HomePage";
+import { PhoneDetailPage } from "./pages/PhoneDetailPage";
+import { CartPage } from "./pages/CartPage";
 
 export function App() {
   return (
-    <div >
-      <h1>Hello smartphone-catalog</h1>
-    </div>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/phone/:id" element={<PhoneDetailPage />} />
+      <Route path="/cart" element={<CartPage />} />
+    </Routes>
   )
 }
 
