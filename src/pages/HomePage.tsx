@@ -40,7 +40,7 @@ export function HomePage() {
       {error && <p>{error}</p>}
 
       {!isLoading && !error &&  phones.length > 0 && (
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <section className="grid grid-cols-1 border-black border-t border-l sm:grid-cols-2 lg:grid-cols-4">
           {phones.map((phone, index) => (
             <PhoneCard key={`${phone.id}-${index}`} phone={phone} />
           ))}
