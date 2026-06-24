@@ -17,6 +17,7 @@ const config: Configuration = {
     entry: "./src/main.tsx",
     output: {
         path: path.resolve(__dirname, "dist"),
+        publicPath: "/",
 
     },
     devServer: {
