@@ -19,8 +19,8 @@ export function HomePage() {
       .then((data) => {
         setPhones(data)
       })
-      .catch(() => {
-        setError("Unable to load phones. Please try again later.")
+      .catch((error) => {
+        setError(error.message)
       })
       .finally(() => {
         setIsLoading(false)

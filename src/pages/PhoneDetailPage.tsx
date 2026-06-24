@@ -3,6 +3,8 @@ import { useEffect, useState } from "react"
 import type { PhoneDetail } from "../types/phoneDetails"
 import { getPhoneDetails } from "../services/getPhoneDetails"
 import { useNavigate } from "react-router-dom"
+import { PhoneCard } from "../components/PhoneCard"
+import { useCart } from "../context/CartContext"
 
 export function PhoneDetailPage() {
   const { id } = useParams()
@@ -15,6 +17,8 @@ export function PhoneDetailPage() {
 
   const navigate = useNavigate()
 
+  const { addToCart } = useCart()
+
   useEffect(() => {
     setIsLoading(true)
     setError("")
@@ -24,6 +28,7 @@ export function PhoneDetailPage() {
 
     if (!id) {
       setError("No phone ID provided.")
+
       setIsLoading(false)
       return
     }
@@ -32,8 +37,8 @@ export function PhoneDetailPage() {
       .then((data) => {
         setPhone(data)
       })
-      .catch(() => {
-        setError("Unable to load phone details.")
+      .catch((error) => {
+        setError(error.message)
       })
       .finally(() => {
         setIsLoading(false)
@@ -61,14 +66,13 @@ export function PhoneDetailPage() {
     : phone.storageOptions[0]
 
   const currentImage =
-    currentColorOption?.imageUrl || phone.colorOptions[0]?.imageUrl
+    currentColorOption?.imageUrl ?? phone.colorOptions[0]?.imageUrl
 
-  const currentPrice = currentStorageOption?.price || phone.basePrice
+  const currentPrice = currentStorageOption?.price ?? phone.basePrice
 
   const isAddToCartDisabled = !phoneColor || !phoneStorage
 
-    const specifications = [
-  
+  const specifications = [
     { label: "BRAND", value: phone.brand },
     { label: "NAME", value: phone.name },
     { label: "DESCRIPTION", value: phone.description },
@@ -82,8 +86,28 @@ export function PhoneDetailPage() {
     { label: "SCREEN REFRESH RATE", value: phone.specs.screenRefreshRate },
   ]
 
+  function handleAddToCart() {
+    if (!phoneColor || !phoneStorage) return
+    if (!phone) return
+
+    const cartItem = {
+      cartItemId: `${phone.id}-${phoneColor}-${phoneStorage}`,
+      phoneId: phone.id,
+      name: phone.name,
+      brand: phone.brand,
+      imageUrl: currentImage,
+      color: phoneColor,
+      storage: phoneStorage,
+      price: currentPrice,
+    }
+
+    addToCart(cartItem)
+    navigate("/cart")
+  }
+
   return (
-    <main className="px-6 py-8">
+    <main className=" md:px-16 py-8">
+      {/* Button */}
       <button
         type="button"
         onClick={() => navigate(-1)}
@@ -92,22 +116,21 @@ export function PhoneDetailPage() {
         {"＜ BACK"}
       </button>
 
-      <section className="grid gap-10 md:grid-cols-2">
+      {/* Phone Image and Details */}
+      <section className="flex flex-col md:flex-row md:items-center md:justify-around md:gap-10">
         <div className="flex justify-center">
           <img
             src={currentImage}
             alt={`${phone.brand} ${phone.name}`}
-            className="max-h-125 object-contain"
+            className="md:max-h-none max-h-100"
           />
         </div>
 
         <div className="flex flex-col gap-8">
           <div>
-            <h1 className="text-2xl font-medium uppercase">{phone.name}</h1>
-            <p className="mt-2 text-sm uppercase text-gray-600">
-              {phone.brand}
-            </p>
-            <p className="mt-4 text-xl">
+            <h1 className="text-2xl font-light uppercase">{phone.name}</h1>
+
+            <p className="mt-2 font-light text-xl">
               {phoneStorage
                 ? ` ${currentPrice} EUR`
                 : `From ${currentPrice} EUR`}
@@ -119,16 +142,16 @@ export function PhoneDetailPage() {
               STORAGE ¿How much space do you need?
             </h2>
 
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap mt-6">
               {phone.storageOptions.map((storage) => (
                 <button
                   key={storage.capacity}
                   type="button"
                   onClick={() => setPhoneStorage(storage.capacity)}
-                  className={`border px-6 py-4 text-sm ${
+                  className={` -ml-px border px-6 py-4 text-sm  ${
                     storage.capacity === phoneStorage
-                      ? "border-black"
-                      : "border-gray-300"
+                      ? " relative z-10 border-black"
+                      : "border-border"
                   }`}
                 >
                   {storage.capacity}
@@ -138,20 +161,18 @@ export function PhoneDetailPage() {
           </div>
 
           <div>
-            <h2 className="mb-3 text-sm uppercase">
+            <h2 className="mb-6 text-sm uppercase">
               Color. Pick your favourite
             </h2>
 
-            <div className="flex gap-3">
+            <div className="flex gap-4">
               {phone.colorOptions.map((color) => (
                 <button
                   key={color.name}
                   type="button"
                   onClick={() => setPhoneColor(color.name)}
-                  className={`h-8 w-8 border ${
-                    color.name === phoneColor
-                      ? "border-black"
-                      : "border-gray-300"
+                  className={`h-6 w-6 border border-white ring-1 ${
+                    color.name === phoneColor ? "ring-black" : "ring-border"
                   }`}
                   style={{ backgroundColor: color.hexCode }}
                   aria-label={`Select color ${color.name}`}
@@ -159,21 +180,21 @@ export function PhoneDetailPage() {
               ))}
             </div>
 
-            {phoneColor && (
-              <p className="mt-3 text-sm text-gray-600">{phoneColor}</p>
-            )}
+            {phoneColor && <p className="mt-2 text-sm">{phoneColor}</p>}
           </div>
 
           <button
             type="button"
             disabled={isAddToCartDisabled}
-            className="mt-4 bg-black px-6 py-4 text-sm uppercase text-white disabled:bg-gray-300 disabled:text-gray-500"
+            onClick={handleAddToCart}
+            className="mt-4 bg-black px-6 py-4 text-sm uppercase text-white disabled:bg-button-muted disabled:text-muted enabled:cursor-pointer hover:bg-gray-800"
           >
             Añadir
           </button>
         </div>
       </section>
 
+      {/* Specifications */}
       <section className="mt-20">
         <h2 className="mb-10 text-xl uppercase">Specifications</h2>
 
@@ -190,9 +211,17 @@ export function PhoneDetailPage() {
         </div>
       </section>
 
+      {/* Similar items */}
       <section className="mt-20">
-        {/* TODO: completar similar items */}
-        <h2 className="mb-10 text-xl">SIMILAR ITEMS</h2>
+        <h2 className="mb-10 text-xl uppercase">Similar items</h2>
+
+        <div className="flex overflow-x-auto pb-4">
+          {phone.similarProducts.map((similarProduct) => (
+            <div key={similarProduct.id} className="shrink-0">
+              <PhoneCard phone={similarProduct} />
+            </div>
+          ))}
+        </div>
       </section>
     </main>
   )
