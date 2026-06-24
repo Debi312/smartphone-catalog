@@ -1,16 +1,38 @@
-import type { Phone } from "../types/phone";
+import type { Phone } from "../types/phone"
 import { API_BASE_URL, API_KEY } from "../utils/env"
 
-export async function getPhones(): Promise<Phone[]> {
-    const response = await fetch(`${API_BASE_URL}/products`, {
-        headers: {
-            "x-api-key": API_KEY,
-        },
-    })
+type GetPhonesParams = {
+  search?: string
+  limit?: number
+  offset?: number
+}
 
-    if (!response.ok) {
-        throw new Error("Error fetching phones");
-    }
+export async function getPhones({
+  search,
+  limit = 20,
+  offset = 0,
+}: GetPhonesParams = {}): Promise<Phone[]> {
+  const params = new URLSearchParams()
 
-    return response.json()
+  params.set("limit", limit.toString())
+  params.set("offset", offset.toString())
+
+  if (search?.trim()) {
+    params.set("search", search.trim())
+  }
+
+  const response = await fetch(
+    `${API_BASE_URL}/products?${params.toString()}`,
+    {
+      headers: {
+        "x-api-key": API_KEY,
+      },
+    },
+  )
+
+  if (!response.ok) {
+    throw new Error("Error fetching phones")
+  }
+
+  return response.json() 
 }
