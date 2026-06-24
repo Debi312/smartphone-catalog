@@ -1,5 +1,6 @@
 import type { Phone } from "../types/phone"
 import { API_BASE_URL, API_KEY } from "../utils/env"
+import { getApiErrorMessage } from "../utils/getApiErrorMessage"
 
 type GetPhonesParams = {
   search?: string
@@ -31,8 +32,8 @@ export async function getPhones({
   )
 
   if (!response.ok) {
-    throw new Error("Error fetching phones")
+    throw new Error(await getApiErrorMessage(response))
   }
 
-  return response.json() 
+  return response.json()
 }

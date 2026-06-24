@@ -1,5 +1,6 @@
 import type { PhoneDetail } from "../types/phoneDetails"
 import { API_BASE_URL, API_KEY } from "../utils/env"
+import { getApiErrorMessage } from "../utils/getApiErrorMessage"
 
 export async function getPhoneDetails(id: string): Promise<PhoneDetail> {
   const response = await fetch(`${API_BASE_URL}/products/${id}`, {
@@ -9,7 +10,7 @@ export async function getPhoneDetails(id: string): Promise<PhoneDetail> {
   })
 
   if (!response.ok) {
-    throw new Error("Error fetching phone details")
+    throw new Error(await getApiErrorMessage(response))
   }
 
   return response.json()
