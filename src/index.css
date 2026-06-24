@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
 body {
-  font-family: Helvetica, Arial, sans-serif
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+@theme {
+  --color-delete: #df0000;
+  --color-muted: #aaaaaa;
+  --color-button-muted: #f3f2f2;
+  --color-border: #cccccc;
 }
