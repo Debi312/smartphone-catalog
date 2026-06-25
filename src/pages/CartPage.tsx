@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom"
 import { useCart } from "../context/CartContext"
 import { getSecureUrl } from "../utils/getSecureUrl"
-import { get } from "node:http"
-
 
 export function CartPage() {
   const { cartItems, removeFromCart, cartTotal } = useCart()
