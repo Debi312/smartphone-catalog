@@ -83,3 +83,11 @@ Create a production build:
 ```bash
 npm run build
 ```
+
+## Deployment
+
+The application is deployed on Netlify and available at:
+
+https://smartphone-catalog.netlify.app/
+
+
