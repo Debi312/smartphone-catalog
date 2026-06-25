@@ -5,6 +5,7 @@ import { getPhoneDetails } from "../services/getPhoneDetails"
 import { useNavigate } from "react-router-dom"
 import { PhoneCard } from "../components/PhoneCard"
 import { useCart } from "../context/CartContext"
+import { getSecureUrl } from "../utils/getSecureUrl"
 
 export function PhoneDetailPage() {
   const { id } = useParams()
@@ -121,7 +122,7 @@ export function PhoneDetailPage() {
         {" "}
         <div className="flex justify-center">
           <img
-            src={currentImage}
+            src={getSecureUrl(currentImage)}
             alt={`${phone.brand} ${phone.name}`}
             className="object-contain"
           />

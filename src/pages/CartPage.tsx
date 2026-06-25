@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom"
 import { useCart } from "../context/CartContext"
+import { getSecureUrl } from "../utils/getSecureUrl"
+import { get } from "node:http"
+
 
 export function CartPage() {
   const { cartItems, removeFromCart, cartTotal } = useCart()
@@ -30,7 +33,7 @@ export function CartPage() {
             className="grid  pb-8 justify-evenly md:grid-cols-[324px_1fr_auto] grid-cols-[200px_1fr_auto]"
           >
             <img
-              src={item.imageUrl}
+              src={getSecureUrl(item.imageUrl)}
               alt={`${item.brand} ${item.name}`}
               className="w-full object-contain"
             />

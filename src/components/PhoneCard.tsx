@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom"
 import type { Phone } from "../types/phone"
+import { getSecureUrl } from "../utils/getSecureUrl"
+
 
 export function PhoneCard({ phone }: { phone: Phone }) {
   return (
@@ -9,7 +11,7 @@ export function PhoneCard({ phone }: { phone: Phone }) {
     >
       <article className="relative z-10 transition-colors duration-300 group-hover:text-white">
         <img
-          src={phone.imageUrl}
+          src={getSecureUrl(phone.imageUrl)}
           alt={`${phone.brand} ${phone.name}`}
           className="h-56 w-full object-contain"
         />
