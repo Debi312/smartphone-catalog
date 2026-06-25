@@ -6,17 +6,17 @@ type SearchBarProps = {
 
 export function SearchBar({ value, resultsCount, onChange }: SearchBarProps) {
   return (
-    <section className="flex flex-col gap-2 my-8">
+    <section className="flex flex-col gap-2 pb-10">
       <input
         id="phone-search"
         type="search"
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder="Search for a smartphone..."
-        className="w-full border-b border-black py-3 outline-none"
+        className="w-full font-light border-b border-black py-1 outline-none"
       />
 
-      <p className="text-xs ">{resultsCount} RESULTS</p>
+      <p className="text-xs pt-4 uppercase">{resultsCount} results</p>
     </section>
   )
 }

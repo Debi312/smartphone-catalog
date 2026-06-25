@@ -117,15 +117,15 @@ export function PhoneDetailPage() {
       </button>
 
       {/* Phone Image and Details */}
-      <section className="flex flex-col md:flex-row md:items-center md:justify-around md:gap-10">
+      <section className="mx-auto grid  gap-30 md:grid-cols-2 md:items-center">
+        {" "}
         <div className="flex justify-center">
           <img
             src={currentImage}
             alt={`${phone.brand} ${phone.name}`}
-            className="md:max-h-none max-h-100"
+            className="object-contain"
           />
         </div>
-
         <div className="flex flex-col gap-8">
           <div>
             <h1 className="text-2xl font-light uppercase">{phone.name}</h1>
@@ -187,7 +187,7 @@ export function PhoneDetailPage() {
             type="button"
             disabled={isAddToCartDisabled}
             onClick={handleAddToCart}
-            className="mt-4 bg-black px-6 py-4 text-sm uppercase text-white disabled:bg-button-muted disabled:text-muted enabled:cursor-pointer hover:bg-gray-800"
+            className="mt-4 bg-black px-6 py-4 max-w-100 text-sm uppercase text-white disabled:bg-button-muted disabled:text-muted enabled:cursor-pointer hover:bg-gray-800"
           >
             Añadir
           </button>
@@ -215,9 +215,9 @@ export function PhoneDetailPage() {
       <section className="mt-20">
         <h2 className="mb-10 text-xl uppercase">Similar items</h2>
 
-        <div className="flex overflow-x-auto pb-4">
-          {phone.similarProducts.map((similarProduct) => (
-            <div key={similarProduct.id} className="shrink-0">
+        <div className="flex overflow-x-auto border-t border-l ">
+          {phone.similarProducts.map((similarProduct, index) => (
+            <div key={similarProduct.id + index} className="shrink-0">
               <PhoneCard phone={similarProduct} />
             </div>
           ))}

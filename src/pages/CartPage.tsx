@@ -27,12 +27,12 @@ export function CartPage() {
         {cartItems.map((item) => (
           <article
             key={item.cartItemId}
-            className="grid  border-b  border-gray-300 pb-8 justify-evenly md:grid-cols-[324px_1fr_auto] grid-cols-[200px_1fr_auto]"
+            className="grid  pb-8 justify-evenly md:grid-cols-[324px_1fr_auto] grid-cols-[200px_1fr_auto]"
           >
             <img
               src={item.imageUrl}
               alt={`${item.brand} ${item.name}`}
-              className="w-full object-cover"
+              className="w-full object-contain"
             />
             <div className="flex flex-col justify-between items-start text-left md:py-12 py-6">
               <div>
@@ -55,7 +55,7 @@ export function CartPage() {
         ))}
       </section>
 
-      <section className="mt-auto flex flex-col gap-8 border-t pt-8">
+      <section className="mt-auto flex flex-col gap-8  pt-8">
         <p className="flex justify-between text-lg uppercase md:hidden">
           <span>Total</span>
           <span>{cartTotal} EUR</span>
@@ -77,6 +77,7 @@ export function CartPage() {
           <button
             type="button"
             className="flex-1 bg-black px-2 py-4 text-sm uppercase text-white  md:flex-none  md:justify-self-end md:w-66"
+            
           >
             Pay
           </button>

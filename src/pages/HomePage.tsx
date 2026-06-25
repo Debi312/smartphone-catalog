@@ -28,14 +28,14 @@ export function HomePage() {
   }, [debouncedSearch])
 
   return (
-    <main className="px-6 py-8">
+    <main className="lg:px-6 py-8">
       <SearchBar
         value={search}
         resultsCount={phones.length}
         onChange={setSearch}
           />
           
-      {isLoading && <p>Loading...</p>}
+      {isLoading && <p className="text-xs uppercase">Loading...</p>}
 
       {error && <p>{error}</p>}
 
@@ -47,7 +47,6 @@ export function HomePage() {
         </section>
       )}
 
-      {!isLoading && !error && phones.length === 0 && <p>No results found.</p>}
     </main>
   )
 }
