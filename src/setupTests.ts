@@ -1,6 +1,5 @@
 /// <reference types="node" />
 
 import { TextDecoder, TextEncoder } from "node:util"
-
-global.TextEncoder = TextEncoder
-global.TextDecoder = TextDecoder
+globalThis.TextEncoder = TextEncoder
+globalThis.TextDecoder = TextDecoder
